@@ -3,7 +3,7 @@
 **The Clawd Bot** CLI — sovereign Solana trading intelligence with zero-knowledge zk primitives.
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/clawdbot | bash
+curl -fsSL https://musebook.trade/clawdbot | bash
 ```
 
 Or from npm:

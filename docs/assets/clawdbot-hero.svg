@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
   <title id="title">The Clawd Bot — animated hero</title>
-  <desc id="desc">Animated neon command surface for The Clawd Bot. curl -fsSL https://cheshireterminal.ai/clawdbot | bash</desc>
+  <desc id="desc">Animated neon command surface for The Clawd Bot. curl -fsSL https://musebook.trade/clawdbot | bash</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#061117"/>
@@ -42,7 +42,7 @@
   </rect>
 
   <g filter="url(#glow)">
-    <text x="70" y="108" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" fill="#14f195">curl -fsSL https://cheshireterminal.ai/clawdbot | bash</text>
+    <text x="70" y="108" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" fill="#14f195">curl -fsSL https://musebook.trade/clawdbot | bash</text>
     <text x="70" y="210" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="82" font-weight="800" letter-spacing="3" fill="url(#word)">CLAWD BOT</text>
     <text x="74" y="258" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#d6f5ff">The Clawd Bot · sovereign Solana agent · zero-knowledge · zk primitives</text>
   </g>

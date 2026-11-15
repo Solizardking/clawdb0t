@@ -22,7 +22,7 @@
 </div>
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/clawdbot | bash
+curl -fsSL https://musebook.trade/clawdbot | bash
 ```
 
 ```bash
@@ -160,13 +160,13 @@ The tree carries the intellectual DNA of academic pioneers in compression, encry
 ### One-Shot Install (recommended)
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/clawdbot | bash
+curl -fsSL https://musebook.trade/clawdbot | bash
 ```
 
 For the complete Solizardking/core-ai sidecar install:
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/clawdbot | CLAWDBOT_INSTALL_CORE_AI=1 bash
+curl -fsSL https://musebook.trade/clawdbot | CLAWDBOT_INSTALL_CORE_AI=1 bash
 ```
 
 Raw GitHub and branded Cloudflare aliases:

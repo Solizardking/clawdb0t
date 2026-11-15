@@ -2,7 +2,7 @@ export const name = "The Clawd Bot ZK Primitives";
 export const slug = "clawd-zk-primitives";
 export const runtime = "clawdbot";
 export const catalogCommand = "clawdbot catalog zk";
-export const install = "curl -fsSL https://cheshireterminal.ai/clawdbot | bash";
+export const install = "curl -fsSL https://musebook.trade/clawdbot | bash";
 export const operations = [
   "publish_attestation",
   "consume_attestation",

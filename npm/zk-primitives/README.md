@@ -3,7 +3,7 @@
 Zero-knowledge primitive catalog for **The Clawd Bot**.
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/clawdbot | bash
+curl -fsSL https://musebook.trade/clawdbot | bash
 npm i @clawd/zk-primitives
 clawdbot catalog zk
 ```

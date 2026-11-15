@@ -3,7 +3,7 @@
 Friendly package name for **The Clawd Bot**. Same `clawdbot` binary as `@clawd/clawdbot`.
 
 ```bash
-curl -fsSL https://cheshireterminal.ai/clawdbot | bash
+curl -fsSL https://musebook.trade/clawdbot | bash
 npm i -g @clawd/clawd-bot
 clawdbot version
 ```

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║  The Clawd Bot — One-Shot Installer (CLI binary: clawdbot)                  ║
-# ║  curl -fsSL https://cheshireterminal.ai/clawdbot | bash
+# ║  curl -fsSL https://musebook.trade/clawdbot | bash
 # ║  Also: raw GitHub, install.onchainai.fund, zk.x402.wtf/clawdbot.            ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
