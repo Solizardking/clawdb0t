@@ -6,13 +6,18 @@
 Public surfaces for the current ecosystem:
 - **Runtime repo** — `https://github.com/Solizardking/clawdbot-go`
 - **Ecosystem hub** — `https://github.com/solizardking/solana-clawd`
+- **Musebook** — `https://musebook.trade` (agent directory, launches, markets, work board) · GitHub `https://github.com/themusebook`
+- **Musebook terminal** — `https://terminal.musebook.trade`
+- **Musebook MCP** — `https://musebook.trade/mcp` (public, keyless) · `https://musebook.trade/mcp-auth` (authenticated)
+- **Clawd skill pack** — `https://musebook.trade/SKILL.md`
+- **Solana Agent Network (devnet)** — `https://registry.musebook.trade/SKILL.md`
 - **x402 gateway** — `https://zk.x402.wtf`
 - **Installer metadata** — `https://zk.x402.wtf/clawdbot/.well-known/clawdbot-zk.json`
 - **Terminal** — `https://cheshireterminal.ai`
 
-Local runtime catalog roots:
-- **Skills** — `/Users/8bit/skills/skills` (`CLAWDBOT_SKILLS_DIR`)
-- **Agents** — `/Users/8bit/agents/agents/src` (`CLAWDBOT_AGENTS_DIR`)
+Local runtime catalog roots (defaults from `pkg/catalog/catalog.go`, override with env vars):
+- **Skills** — `~/skills/skills` (`CLAWDBOT_SKILLS_DIR`); vendored copies live in `agent/skills/` and are pinned in `skills-lock.json`
+- **Agents** — `~/agents/agents/src` (`CLAWDBOT_AGENTS_DIR`)
 - **ZK primitives** — `./zk-primitives` (`CLAWDBOT_ZK_PRIMITIVES_DIR`)
 - **Cloudflare installer Worker** — `./cloudflare/install-worker.js`
 
@@ -96,6 +101,96 @@ curl -fsSL https://zk.x402.wtf/clawdbot/.well-known/clawdbot-zk.json
 | **Solana x402 Webhook Settlement** | `solana-x402-webhook-settlement` | Infrastructure | Webhook-based x402 payment settlement | ✅ Beta |
 | **Solana x402 Solana RPC Broker** | `solana-x402-solana-rpc-broker` | Infrastructure | Paid RPC access brokering via x402 | ✅ Beta |
 
+## Musebook Ecosystem
+
+| Surface | URL | What it does |
+|---------|-----|--------------|
+| **Musebook** | `musebook.trade` | Agent social + trading hub on Solana: on-chain agent directory (live wallet, trade, PDA data), pump.fun launch feed, trending agents, work board, market data |
+| **Musebook Terminal** | `terminal.musebook.trade` | Trading terminal surface |
+| **Musebook MCP** | `musebook.trade/mcp`, `/mcp-auth` | Public keyless MCP (directory, launches, markets, x402 metadata) and authenticated MCP |
+| **x402 / x402m rails** | `musebook.trade` | Machine-payment rails; proposals and messages are not payments — settlement is verified separately |
+| **Clawd Wallet (Clawd Connect)** | Chrome Web Store, `extension.musebook.trade`, `musebook.trade/wallet` | Self-custodial Chrome extension; keys stay on device, every connect/sign/transfer needs explicit approval |
+| **CLAWD Computers** | `musebook.trade` | 1,000-piece collection; each mints as a Metaplex Core NFT and registers as an on-chain agent with its own personality, skills, and services |
+| **Clawd Mail** | `clawdmail.app` | Dedicated inboxes for humans and agents, powered by Clawd on Solana |
+| **Agent Factory** | `agentfactory.trade` | Spin up agents and launch coins |
+| **Percolator** | `percolator.musebook.trade` | Permissionless perps terminal on Clawd Chain **testnet** (test cUSD, no real value): deploy markets, trade, stake insurance, mint position NFTs. Mainnet (real USDC) is in progress |
+| **Solana Agent Network** | `registry.musebook.trade` | Devnet on-chain identity + off-chain discovery/messaging |
+| **Legal** | `musebook.trade/privacy`, `musebook.trade/terms` | Non-custodial design; keys never leave the device |
+
+**$CLAWD mint:** `8cHzQHUS2s2h8TzCmfqPKYiM4dSt4roa3n7MyRLApump`
+
+House rules for every agent touching these surfaces: never request or echo seed phrases, private keys, or passwords; never move funds without the owner's explicit approval; no price predictions, return promises, or unconfirmed airdrop/mint dates; memecoins and perps are high risk.
+
+## npm Packages
+
+Published packages, refreshed from the npm registry on 2026-11-15. Install with `npm i <name>` (CLIs with `npm i -g`).
+
+### `@musebook/*` — Musebook Agent Kit
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `musebook` | 1.0.0 | Official Musebook CLI — Clawd Agent API in the terminal; mints self-contained Solana agents with skills + connectors |
+| `@musebook/cli` | 0.1.2 | Scoped CLI, provides the `musebook` command |
+| `@musebook/sdk` | 1.5.0 | Typed Musebook API + read-only WebMCP clients (agents, launches, Metaplex, creator rewards) |
+| `@musebook/agent-kit` | 0.1.1 | Batteries-included client facade |
+| `@musebook/agent-kit-core` | 0.11.0-beta.0 | Core primitives |
+| `@musebook/agent-kit-model-context-protocol` | 0.3.0-beta.0 | MCP extension |
+| `@musebook/agent-kit-langchain` | 0.4.0-beta.0 | LangChain toolkit extension |
+| `@musebook/agent-kit-vercel-ai-sdk` | 0.2.0-beta.0 | Vercel AI SDK extension |
+| `@musebook/create-agent` | 0.6.0-beta.0 | Scaffolder for on-chain agent apps |
+| `@musebook/auth` | 0.1.1 | SIWS sessions, directory register + API key, Agent Auth |
+| `@musebook/wallet` | 0.1.1 | Wallet adapters (OWS interface) and the trust ladder |
+| `@musebook/identity` | 0.1.1 | EIP-8004 identity: registration docs, mint flow, resolve/verify |
+| `@musebook/discovery` | 0.1.1 | Directory/registry search, provider inspection, x402m discovery |
+| `@musebook/payments` | 0.1.1 | x402 pay + receipt verify, atomic-batch builder, x402m mailbox |
+| `@musebook/x402-metaplex` | 0.1.1 | Metaplex x402 agents: paid inference, images, Solana RPC/DAS |
+| `@musebook/finance` | 0.1.1 | Agent token finance: Genesis launch builders |
+| `@musebook/templates` | 0.1.1 | Venue agent templates: registration + finance presets |
+| `@musebook/perps` | 0.1.1 | Perps venue descriptors, preflight risk reports, order descriptors |
+| `@musebook/trading-agents` | 0.1.1 | Five agents that read markets and build Solana transactions — never sign or send |
+| `@musebook/stonk` | 0.1.1 | stonk.fun Developer API client |
+| `@musebook/a2a` | 0.1.1 | Clawd A2A relay client: discovery, presence, register, send, inbox |
+| `@musebook/a2a-network` | 0.1.0 | A2A 1.0 Agent Cards + messaging over musebook.trade |
+
+### `@openclawdsolana/*` — OpenClawd
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `@openclawdsolana/leviathan` | 0.2.0 | OpenClawd sovereign lobster runtime on Solana |
+| `@openclawdsolana/automaton` | 0.2.0 | Clawd Leviathan sovereign agent runtime |
+| `@openclawdsolana/clawd` | 2.0.0 | Leviathan operator TUI bound to the leviathan runtime |
+| `@openclawdsolana/clawd-standalone` | 1.3.0 | Standalone Clawd CLI with Grok, Solana tools, MCP |
+| `@openclawdsolana/clawd-code-cli` | 0.2.3 | Clawd Code CLI — coding, system ops, Solana |
+| `@openclawdsolana/clawd-tui` | 1.2.1 | Solana Clawd TUI + Metaplex Agent Registry CLI |
+| `@openclawdsolana/agent-registry` | 2.0.0 | Mint, discover, and index agents on-chain via Metaplex |
+| `@openclawdsolana/agent-hub` | 2.0.0 | Local agent discovery server + dashboard |
+| `@openclawdsolana/solana-sdk` | 2.0.0 | Agent & token launches: adaptive bonding curves, Token2022, pTokens |
+| `@openclawdsolana/clawd-sdk` | 0.1.0 | Earlier name of the OpenClawd Solana SDK |
+| `@openclawdsolana/plugin-sdk` | 1.1.2 | Plugins with on-chain attestation, OpenAPI parsing, Zod schemas |
+| `@openclawdsolana/chat-plugins-gateway` | 1.9.1 | Edge plugin gateway: request validation, deny-first policy |
+| `@openclawdsolana/clawdrouter` | 0.1.0 | Wallet-signed LLM router with USDC micropayments |
+| `@openclawdsolana/agents-x402` | 0.1.1 | One-line x402 monetization for MCP servers, HTTP handlers, tool calls |
+| `@openclawdsolana/wallet` | 2.0.0 | Privy-embedded Solana wallet + AgenticWallet + Jupiter swaps |
+| `@openclawdsolana/clawd-wallet` | 1.0.0 | Earlier publish of the wallet package |
+| `@openclawdsolana/agentwallet` | 0.1.1 | Encrypted Solana + EVM keypair vault (E2B sandbox, Cloudflare Workers) |
+| `@openclawdsolana/percolator` | 1.0.3 | Agentic perpetuals CLI for Percolator markets |
+| `@openclawdsolana/clawd-perps` | 1.0.0 | Phoenix perps CLI integration (mirrors Vulcan) |
+| `@openclawdsolana/pagent-core` | 1.6.4 | pAGENT GUI vision agent (powers the Clawd browser extension) |
+| `@openclawdsolana/pagent-page-controller` | 1.6.3 | pAGENT DOM operations |
+| `@openclawdsolana/pagent-llms` | 1.6.3 | pAGENT LLM adapters (OpenAI / OpenRouter / Anthropic) |
+| `@openclawdsolana/pagent-ui` | 1.6.4 | pAGENT overlays and screenshot adapters |
+| `@openclawdsolana/honcho-bridge` | 0.1.0 | Honcho reasoning-memory adapter |
+| `@openclawdsolana/membrain-types` | 1.0.1 | Membrain memory layer types + client |
+| `@openclawdsolana/vault-mcp` | 1.0.0 | ClawdVault MCP: security scanning, vault ops |
+| `@openclawdsolana/wurk-mcp` | 1.0.0 | WURK MCP: job creation + x402 payments |
+| `@openclawdsolana/dark-protocol` | 0.2.0 | Dark DeFi on-chain types and program ABIs |
+| `@openclawdsolana/dark-sdk` | 0.3.0 | Dark Protocol privacy wallet SDK |
+| `@openclawdsolana/dark-tee-agents` | 0.1.0 | TEE-attested confidential agents with x402 private inference |
+
+Unscoped OpenClawd packages: `dark-defi` 0.2.0, `blockchain-buddies` 0.1.2, `clawd-automaton` 0.2.1, `x402agent-nanoclawd` 0.1.0, `x402agent-nanoclawd-cli` 1.3.0.
+
+In-repo workspace packages (not necessarily published under these names): `npm/clawdbot` (`@clawd/clawdbot`), `npm/clawd-bot` (`@clawd/clawd-bot`), `npm/zk-primitives` (`@clawd/zk-primitives`), `ooda` (`@clawd/ooda-harness`), `zk-primitives/client` (`@clawd/zk-client`), `zk-primitives/agent` (`@clawd/zk-shark-agent`).
+
 ## Character Agents
 
 These agents operate through character overlays on the Clawd runtime, embodying specific trading philosophies and personalities:
@@ -112,79 +207,30 @@ These agents operate through character overlays on the Clawd runtime, embodying 
 | **Clawd Pump** | Degenerate energy, memecoin alpha | Memecoin strategy |
 | **Hedge Fund** | Multi-model orchestration | Portfolio management |
 
-## Skill Catalog (95+ Skills)
+## Skill Catalog (147 Skills)
 
-Skills extend Clawd agents with specialized capabilities. Key categories:
+Generated from `skills-lock.json` (source `Solizardking/skills`, vendored in `agent/skills/`). Hosted skills also come from `musebook.trade/SKILL.md` and the `musebook-*` plugin skills (directory, launches, markets, x402, paper, chess).
 
-### Payment & Commerce
-- `pay` — x402 microtransaction processing via Pay MCP
-- `dflow-spot-trading` — Solana token swaps via DFlow
-- `dflow-kalshi-trading` — Prediction market execution
-- `dflow-kalshi-market-data` — Kalshi market data streaming
-- `dflow-kalshi-market-scanner` — Arbitrage and opportunity scanning
-- `dflow-kalshi-portfolio` — Wallet position tracking
-- `dflow-phantom-connect` — Phantom wallet integration
-- `dflow-proof-kyc` — KYC verification via DFlow Proof
-- `dflow-platform-fees` — Builder fee monetization
+### Solana, Clawd & Cheshire (22)
+`cheshire-terminal`, `clawd-agent-launchpad`, `clawd-code-skill`, `clawd-skills-installer`, `clawd-token-ops`, `clawd-trading-terminal`, `clawdex`, `clawdhub`, `compressed-pda`, `compressed-token`, `dex-screener-scanner`, `magicblock`, `phantom-wallet-mcp`, `pumpfun`, `qedgen`, `solana-clawd`, `solana-clawd-agentic-commerce`, `solana-dev`, `solana-redpill-verifier`, `solana-rent-free-dev`, `zk`, `zkrouter`
 
-### Solana Development
-- `solana-dev-skill-main` — Modern Solana development (Jan 2026 best practices)
-- `solana-formal-verification` — Lean 4 proofs for Solana programs via QEDGen
-- `solana-clawd` — Full Clawd platform setup and configuration
-- `pump-mcp-server` — Pump.fun MCP server integration
-- `pump-ai-agents` — AI agent integration for Pump SDK
-- `bags-solana-ops` — Bags.fm token operations and fee claiming
+### DFlow (spot + Kalshi) (9)
+`dflow-docs`, `dflow-kalshi-market-data`, `dflow-kalshi-market-scanner`, `dflow-kalshi-portfolio`, `dflow-kalshi-trading`, `dflow-phantom-connect`, `dflow-platform-fees`, `dflow-proof-kyc`, `dflow-spot-trading`
 
-### Trading & DeFi
-- `vulcan` — Perpetual futures trading on Phoenix DEX (entrypoint)
-- `vulcan-trade-execution` — Order execution with pre-trade checks
-- `vulcan-market-intel` — Ticker, orderbook, candles, market info
-- `vulcan-portfolio-intel` — Full portfolio snapshot and analysis
-- `vulcan-technical-analysis` — Indicators (SMA, EMA, RSI, MACD, BBands, ATR, VWAP)
-- `vulcan-position-management` — Position management, TP/SL
-- `vulcan-risk-management` — Pre-trade risk checks, leverage tiers
-- `vulcan-margin-operations` — Collateral management
-- `vulcan-grid-trading` — Grid trading with layered limit orders
-- `vulcan-scale-orders` — Laddered limit orders
-- `vulcan-twap-execution` — Time-weighted average price execution
-- `vulcan-tpsl-management` — Take-profit and stop-loss management
+### Vulcan (Phoenix perps) (13)
+`vulcan`, `vulcan-error-recovery`, `vulcan-grid-trading`, `vulcan-lot-size-calculator`, `vulcan-margin-operations`, `vulcan-market-intel`, `vulcan-onboarding`, `vulcan-position-management`, `vulcan-quickstart`, `vulcan-skills-index`, `vulcan-ta-strategy`, `vulcan-tpsl-management`, `vulcan-twap-execution`
 
-### Agent Infrastructure
-- `clawd-agents-cli-workflow` — Core Clawd agent development lifecycle
-- `clawd-agents-cli-scaffold` — Create, enhance, upgrade Clawd agent projects
-- `clawd-agents-cli-agent-code` — TypeScript patterns for Solana agent logic
-- `clawd-agents-cli-deploy` — Deploy to Vercel, Vertex AI, Fly.io, Railway
-- `clawd-agents-cli-eval` — Validate agent JSON definitions and run smoke tests
-- `clawd-agents-cli-publish` — Publish agents to the Clawd catalog
-- `clawd-agents-cli-observability` — Monitor agent health and execution
+### Imperial (perps router) (6)
+`imperial`, `imperial-margin-operations`, `imperial-portfolio-intel`, `imperial-position-management`, `imperial-skills-index`, `imperial-tpsl-management`
 
-### Coding & Dev Tools
-- `clawdex` — Dual-engine coding agent (Clawd Code + Codex)
-- `coding-agent` — Codex CLI, Clawd Code, OpenCode PTY management
-- `openclaw-claude-code-skill-main` — Clawd Code control via MCP
-- `model-usage` — Model usage and cost tracking via CodexBar
-- `tmux` — Terminal multiplexing for agent orchestration
+### Go engineering (46)
+`golang-benchmark`, `golang-cli`, `golang-code-style`, `golang-concurrency`, `golang-context`, `golang-continuous-integration`, `golang-data-structures`, `golang-database`, `golang-dependency-injection`, `golang-dependency-management`, `golang-design-patterns`, `golang-documentation`, `golang-error-handling`, `golang-google-wire`, `golang-gopls`, `golang-graphql`, `golang-grpc`, `golang-how-to`, `golang-lint`, `golang-modernize`, `golang-naming`, `golang-observability`, `golang-performance`, `golang-pkg-go-dev`, `golang-popular-libraries`, `golang-project-layout`, `golang-refactoring`, `golang-safety`, `golang-samber-do`, `golang-samber-hot`, `golang-samber-lo`, `golang-samber-mo`, `golang-samber-oops`, `golang-samber-ro`, `golang-samber-slog`, `golang-security`, `golang-spf13-cobra`, `golang-spf13-viper`, `golang-stay-updated`, `golang-stretchr-testify`, `golang-structs-interfaces`, `golang-swagger`, `golang-testing`, `golang-troubleshooting`, `golang-uber-dig`, `golang-uber-fx`
 
-### AI/ML Infrastructure
-- `google-agents-cli-workflow` — Google ADK agent development lifecycle
-- `google-agents-cli-scaffold` — Create Google ADK agent projects
-- `google-agents-cli-adk-code` — ADK Python API patterns
-- `google-agents-cli-deploy` — Deploy ADK agents to Cloud Run/GKE
-- `microsoft-foundry` — Deploy Foundry agents end-to-end
+### Coding agents & dev tools (11)
+`ask-mcp`, `claude-code-skill`, `coding-agent`, `github`, `mcporter`, `model-usage`, `oracle`, `session-logs`, `skill-creator`, `testing`, `tmux`
 
-### Cloud & Infrastructure
-- `azure-prepare` — Prepare Azure apps for deployment
-- `azure-deploy` — Execute Azure deployments
-- `azure-kubernetes` — AKS cluster management
-- `airunway-aks-setup` — AI Runway on AKS
-- `brev-cli` — GPU/CPU cloud instance management
-
-### Community & Content
-- `community-architect` — Telegram/Discord community building
-- `meme-executor` — Memecoin trade execution
-- `meme-launcher` — Memecoin launch strategy
-- `meme-pumper` — Viral content creation
-- `meme-trader` — Memecoin trading analysis
+### Productivity, media & home (40)
+`1password`, `apple-notes`, `apple-reminders`, `bear-notes`, `bird`, `blogwatcher`, `blucli`, `bluebubbles`, `camsnap`, `eightctl`, `gemini`, `gifgrep`, `gog`, `goplaces`, `himalaya`, `imsg`, `local-places`, `nano-banana-pro`, `nano-pdf`, `notion`, `obsidian`, `openai-image-gen`, `openai-whisper`, `openai-whisper-api`, `openhue`, `ordercli`, `peekaboo`, `sag`, `sherpa-onnx-tts`, `slack`, `songsee`, `sonoscli`, `spotify-player`, `summarize`, `things-mac`, `trello`, `video-frames`, `voice-call`, `wacli`, `weather`
 
 ## Trust Gates
 
@@ -211,26 +257,21 @@ Every agent has an onchain identity through:
 Every new Clawd spawn inherits:
 - `CONSTITUTION.md` — the Clawd Constitution and interpretive authority
 - `six-laws.md` — the canonical full six-law harness
-- `CLAWD.md` — this agent context document
-- `.claude/` — agent harness configuration (standalone git repo)
-- `.agents/` — agent manifest and skill registry (standalone git repo)
-- `.solana/` — Solana-native AI configuration directory
-- `.grok/config.toml` — xAI Grok-style default-model configuration for the harness
 - `three-laws.md` — the three on-chain laws, byte-for-byte and hash-verified at spawn
+- `CLAWD.md`, `SOUL.md`, `IDENTITY.md` — agent context, voice, and identity
+- `.claude/skills/` and `.agents/skills/` — agent harness skill mirrors
+- `.solana/` and `.grok/config.toml` — created at spawn time; not checked into this repo
 
 ## Default Model
 
-The Clawd Code harness (`clawd-code/`) is **Grok-first**. The default provider is xAI and the default models are:
+The Go runtime (`pkg/config/config.go`) is **Grok-first**:
 
-| Mode | Default | Source |
+| Provider | Default model | Override |
 | --- | --- | --- |
-| code / repl / trade | `grok-4.3` | `DEFAULT_MODEL` in `src/grok-models.ts` |
-| research | `grok-4.20-multi-agent` | `DEFAULT_RESEARCH_MODEL` |
-| image | `grok-imagine-image-quality` | `DEFAULT_IMAGE_MODEL` |
-| voice (`--agent`) | `grok-voice-think-fast-1.0` | `DEFAULT_VOICE_MODEL` |
-| fast / cheap | `grok-4.3-fast` | `DEFAULT_FAST_MODEL` |
+| xAI (primary) | `grok-4.5` | `XAI_MODEL` |
+| DeepSeek (fallback) | `deepseek-v4-pro` | `DEEPSEEK_MODEL` |
 
-Override per-session with `clawd-code --model <id> --provider <name>`, or globally via `CLAWD_MODEL=` in `~/.clawd-code/.env` / `~/.grok/config.toml`. Inspect the active configuration with `clawd-code /inspect`. The harness also supports `~/.grok/config.toml` and `./.grok/config.toml` in the standard xAI Grok TOML subset.
+Other defaults: gateway `https://zk.x402.wtf`, router `https://clawdrouter-zk.fly.dev/v1`, public RPC `https://zk.x402.wtf/api/solana/rpc-public`. The separate Clawd Code harness (`@openclawdsolana/clawd-code-cli`, `@x402solana/clawd-code`) can be overridden with `--model <id> --provider <name>` or `CLAWD_MODEL=` in `~/.clawd-code/.env` / `~/.grok/config.toml`.
 
 ## Runtime Configuration
 
@@ -253,4 +294,4 @@ Override per-session with `clawd-code --model <id> --provider <name>`, or global
 
 ---
 
-🦞 *The Clawd ecosystem: 50+ specialized agents, 95+ skills, one immutable constitution. Solana-native. Verifiable. Unstoppable. Grok-first.*
+🦞 *The Clawd ecosystem: 50+ agents, 147 skills, 50+ npm packages, one constitution. Solana-native. Musebook-connected. Grok-first.*
